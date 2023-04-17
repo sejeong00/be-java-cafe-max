@@ -58,7 +58,7 @@ public class UserService {
         );
     }
 
-    public void updateUserPassword(String userId, String password) {
+    public void updatePassword(String userId, String password) {
         Optional<User> targetUser = userRepository.findByUserId(userId);
 
         userRepository.save(new User(

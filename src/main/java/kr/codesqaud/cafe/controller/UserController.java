@@ -62,7 +62,7 @@ public class UserController {
             @PathVariable("userId") String userId,
             @RequestParam("newPassword") String newPassword
     ) {
-        userService.updateUserPassword(userId, newPassword);
+        userService.updatePassword(userId, newPassword);
 
         return "redirect:/users";
     }
