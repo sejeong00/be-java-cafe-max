@@ -13,9 +13,6 @@ public class UserResponse {
         this.email = email;
     }
 
-    public UserResponse() {
-    }
-
     public String getUserId() {
         return userId;
     }
