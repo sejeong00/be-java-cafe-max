@@ -36,7 +36,7 @@ public class UserService {
     public UserResponse findByUserId(String userId) {
         return userRepository.findByUserId(userId)
                 .map(UserMapper::EntityToResponse)
-                .orElseThrow(() -> new NoSuchElementException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NoSuchUserException(userId));
     }
 
     public void updatePassword(String userId, String newPassword) {
