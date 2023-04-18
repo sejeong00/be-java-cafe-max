@@ -1,6 +1,7 @@
 package kr.codesqaud.cafe.repository;
 
 import kr.codesqaud.cafe.domain.entity.User;
+import kr.codesqaud.cafe.exception.NoSuchUserException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -27,6 +28,15 @@ public class UserMemoryRepository implements UserRepository {
     @Override
     public Optional<User> findByUserId(String userId) {
         return Optional.ofNullable(users.get(userId));
+    }
+
+    @Override
+    public void updatePasswordById(final String userId, final String newPassword) {
+        User targetUser = findByUserId(userId).orElseThrow(() -> new NoSuchUserException(userId));
+
+        targetUser.updatePassword(newPassword);
+
+        save(targetUser);
     }
 
 }

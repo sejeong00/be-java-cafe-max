@@ -42,6 +42,14 @@ public class UserH2Repository implements UserRepository {
         return result.stream().findAny();
     }
 
+    public void updatePasswordById(String userId, String newPassword){
+        jdbcTemplate.update(
+                "UPDATE \"user\" SET password = ? WHERE userId = ?",
+                newPassword,
+                userId
+                );
+    }
+
 
     private RowMapper<User> userRowMapper() {
         return (rs, rowNum) -> new User(

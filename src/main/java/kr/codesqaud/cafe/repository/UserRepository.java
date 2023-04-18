@@ -13,4 +13,6 @@ public interface UserRepository {
     public List<User> findAll();
 
     public Optional<User> findByUserId(String userId);
+
+    public void updatePasswordById(String userId, String newPassword);
 }

@@ -45,6 +45,6 @@ public class UserService {
 
         targetUser.updatePassword(newPassword);
 
-        userRepository.save(targetUser);
+        userRepository.updatePasswordById(userId, newPassword);
     }
 }
