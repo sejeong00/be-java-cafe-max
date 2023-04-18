@@ -2,6 +2,7 @@ package kr.codesqaud.cafe.service;
 
 import kr.codesqaud.cafe.domain.entity.User;
 import kr.codesqaud.cafe.dto.UserSignUpRequest;
+import kr.codesqaud.cafe.exception.NoSuchUserException;
 import kr.codesqaud.cafe.mapper.UserMapper;
 import kr.codesqaud.cafe.repository.UserRepository;
 import kr.codesqaud.cafe.dto.UserResponse;
@@ -9,8 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -40,16 +39,12 @@ public class UserService {
                 .orElseThrow(() -> new NoSuchElementException("사용자를 찾을 수 없습니다."));
     }
 
-    public void updatePassword(String userId, String password) {
-        //TODO entity에 updatePassword 메서드 추가
-        //TODO Mapper사용
-        Optional<User> targetUser = userRepository.findByUserId(userId);
+    public void updatePassword(String userId, String newPassword) {
+        User targetUser = userRepository.findByUserId(userId)
+                        .orElseThrow(() -> new NoSuchUserException(userId));
 
-        userRepository.save(new User(
-                targetUser.get().getUserId(),
-                password,
-                targetUser.get().getName(),
-                targetUser.get().getEmail()
-        ));
+        targetUser.updatePassword(newPassword);
+
+        userRepository.save(targetUser);
     }
 }

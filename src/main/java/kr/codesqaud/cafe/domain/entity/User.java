@@ -29,4 +29,6 @@ public class User {
         return email;
     }
 
+    public void updatePassword(String password){ this.password = password; }
+
 }
