@@ -1,9 +1,8 @@
 package kr.codesqaud.cafe.repository;
 
 import kr.codesqaud.cafe.domain.entity.Article;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -12,17 +11,21 @@ import java.util.Optional;
 
 @Repository
 public class ArticleH2Repository implements ArticleRepository {
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public ArticleH2Repository(DataSource dataSource) {
-        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
     public void save(Article article) {
+        //TODO 중복키 validation
+        // org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Unique index or primary key violation
         jdbcTemplate.update(
-                "INSERT INTO article(writer, title, contents) VALUES (:writer, :title, :contents)",
-                new BeanPropertySqlParameterSource(article)
+                "INSERT INTO article(writer, title, contents) VALUES (?, ?, ?)",
+                article.getWriter(),
+                article.getTitle(),
+                article.getContents()
         );
     }
 
@@ -33,7 +36,10 @@ public class ArticleH2Repository implements ArticleRepository {
 
     @Override
     public Optional<Article> findByArticleId(long articleId) {
-        List<Article> result = jdbcTemplate.query("SELECT * FROM article WHERE articleId = :articleId", articleRowMapper());
+        List<Article> result = jdbcTemplate.query(
+                "SELECT * FROM article WHERE articleId = ?",
+                articleRowMapper(),
+                articleId);
         return result.stream().findAny();
     }
 
