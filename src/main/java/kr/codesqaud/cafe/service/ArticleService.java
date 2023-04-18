@@ -21,6 +21,10 @@ public class ArticleService {
         this.articleRepository = articleRepository;
     }
 
+    public void post(ArticlePostRequest articlePostRequest) {
+        articleRepository.save(ArticleMapper.postRequestToEntity(articlePostRequest));
+    }
+
     public List<ArticleResponse> findArticles() {
         return articleRepository.findAll()
                 .stream()
