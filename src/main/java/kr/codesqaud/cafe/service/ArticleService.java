@@ -1,10 +1,8 @@
 package kr.codesqaud.cafe.service;
 
-import kr.codesqaud.cafe.domain.entity.User;
 import kr.codesqaud.cafe.dto.ArticlePostRequest;
 import kr.codesqaud.cafe.domain.entity.Article;
 import kr.codesqaud.cafe.dto.ArticleResponse;
-import kr.codesqaud.cafe.dto.UserResponse;
 import kr.codesqaud.cafe.repository.ArticleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
