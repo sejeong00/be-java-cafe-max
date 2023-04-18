@@ -16,7 +16,7 @@ public class ArticleMapper {
     public static ArticleResponse entityToResponse(Article article){
         return new ArticleResponse(
                 article.getArticleId(),
-                article.getWriter(),
+                article.getWriter().trim(),
                 article.getTitle(),
                 article.getContents()
         );

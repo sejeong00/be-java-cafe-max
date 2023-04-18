@@ -16,8 +16,8 @@ public class UserMapper {
 
     public static UserResponse EntityToResponse(User user){
         return new UserResponse(
-                user.getUserId(),
-                user.getPassword(),
+                user.getUserId().trim(),
+                user.getPassword().trim(),
                 user.getName(),
                 user.getEmail()
         );
