@@ -42,7 +42,7 @@ public class ArticleController {
     }
 
     @GetMapping("/article/{articleId}")
-    public String showDetail(@PathVariable("articleId") long articleId, Model model) {
+    public String showDetail(@PathVariable long articleId, Model model) {
         model.addAttribute("article", articleService.findByArticleId(articleId));
 
         return "qna/show";

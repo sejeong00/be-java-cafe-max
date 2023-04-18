@@ -58,8 +58,8 @@ public class UserController {
 
     @PutMapping("/user/{userId}/update")
     public String updatePassword(
-            @PathVariable("userId") String userId,
-            @RequestParam("newPassword") String newPassword
+            @PathVariable String userId,
+            @RequestParam String newPassword
     ) {
         userService.updatePassword(userId, newPassword);
 
