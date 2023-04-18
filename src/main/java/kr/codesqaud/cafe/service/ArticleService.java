@@ -5,7 +5,6 @@ import kr.codesqaud.cafe.dto.ArticlePostRequest;
 import kr.codesqaud.cafe.domain.entity.Article;
 import kr.codesqaud.cafe.dto.ArticleResponse;
 import kr.codesqaud.cafe.dto.UserResponse;
-import kr.codesqaud.cafe.repository.ArticleH2Repository;
 import kr.codesqaud.cafe.repository.ArticleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 public class ArticleService {
     private final ArticleRepository articleRepository;
 
-    public ArticleService(ArticleH2Repository articleRepository) {
+    public ArticleService(ArticleRepository articleRepository) {
         this.articleRepository = articleRepository;
     }
 
