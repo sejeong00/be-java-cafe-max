@@ -3,12 +3,13 @@ package kr.codesqaud.cafe.service;
 import kr.codesqaud.cafe.dto.ArticlePostRequest;
 import kr.codesqaud.cafe.domain.entity.Article;
 import kr.codesqaud.cafe.dto.ArticleResponse;
+import kr.codesqaud.cafe.mapper.ArticleMapper;
 import kr.codesqaud.cafe.repository.ArticleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -23,27 +24,15 @@ public class ArticleService {
     public List<ArticleResponse> findArticles() {
         return articleRepository.findAll()
                 .stream()
-                //TODO Entity -> Dto 메서드
-                .map(article -> new ArticleResponse(
-                        article.getArticleId(),
-                        article.getWriter(),
-                        article.getTitle(),
-                        article.getContents()
-                ))
+                .map(ArticleMapper::entityToResponse)
                 .collect(Collectors.toList());
 
     }
 
     public ArticleResponse findByArticleId(long articleId) {
-        Optional<Article> targetArticle = articleRepository.findByArticleId(articleId);
-
-        //TODO Entity -> Dto 메서드
-        return new ArticleResponse(
-                targetArticle.get().getArticleId(),
-                targetArticle.get().getWriter(),
-                targetArticle.get().getTitle(),
-                targetArticle.get().getContents()
-        );
+         return articleRepository.findByArticleId(articleId)
+                .map(ArticleMapper::entityToResponse)
+                .orElseThrow(() -> new NoSuchElementException("게시글을 찾을 수 없습니다."));
     }
 
     public void post(ArticlePostRequest articlePostRequest) {

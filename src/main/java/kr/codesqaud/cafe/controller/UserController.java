@@ -22,7 +22,6 @@ public class UserController {
     @RequestMapping("/user/signup")
     public String join(HttpServletRequest request, @ModelAttribute UserSignUpRequest userSignUpRequest) {
 
-        //TODO Dto -> Entity 메서드
         if ("POST".equals(request.getMethod())) {
 
             userService.join(userSignUpRequest);

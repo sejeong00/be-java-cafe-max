@@ -2,13 +2,14 @@ package kr.codesqaud.cafe.service;
 
 import kr.codesqaud.cafe.domain.entity.User;
 import kr.codesqaud.cafe.dto.UserSignUpRequest;
-import kr.codesqaud.cafe.repository.UserH2Repository;
+import kr.codesqaud.cafe.mapper.UserMapper;
 import kr.codesqaud.cafe.repository.UserRepository;
 import kr.codesqaud.cafe.dto.UserResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -23,42 +24,25 @@ public class UserService {
     }
 
     public void join(UserSignUpRequest userSignUpRequest) {
-
-        //TODO Dto -> Entity 메서드
-        userRepository.save(new User(
-                userSignUpRequest.getUserId(),
-                userSignUpRequest.getPassword(),
-                userSignUpRequest.getName(),
-                userSignUpRequest.getEmail()
-        ));
+        userRepository.save(UserMapper.SignUpRequestToEntity(userSignUpRequest));
     }
 
     public List<UserResponse> findUsers() {
         return userRepository.findAll()
                 .stream()
-                //TODO Entity -> Dto 메서드
-                .map(user -> new UserResponse(
-                        user.getUserId(),
-                        user.getPassword(),
-                        user.getName(),
-                        user.getPassword()
-                ))
+                .map(UserMapper::EntityToResponse)
                 .collect(Collectors.toList());
     }
 
     public UserResponse findByUserId(String userId) {
-        Optional<User> targetUser = userRepository.findByUserId(userId);
-
-        //TODO Entity -> Dto 메서드
-        return new UserResponse(
-                targetUser.get().getUserId(),
-                targetUser.get().getPassword(),
-                targetUser.get().getName(),
-                targetUser.get().getEmail()
-        );
+        return userRepository.findByUserId(userId)
+                .map(UserMapper::EntityToResponse)
+                .orElseThrow(() -> new NoSuchElementException("사용자를 찾을 수 없습니다."));
     }
 
     public void updatePassword(String userId, String password) {
+        //TODO entity에 updatePassword 메서드 추가
+        //TODO Mapper사용
         Optional<User> targetUser = userRepository.findByUserId(userId);
 
         userRepository.save(new User(
