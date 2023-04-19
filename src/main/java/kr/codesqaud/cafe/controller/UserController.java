@@ -41,7 +41,7 @@ public class UserController {
 
     @GetMapping("/user/{userId}")
     public String showUserProfile(
-            @PathVariable("userId") String userId
+            @PathVariable String userId
             , Model model
     ) {
         model.addAttribute("userProfile", userService.findByUserId(userId));
@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{userId}/update")
-    public String showPasswordEditForm(@PathVariable("userId") String userId, Model model) {
+    public String showPasswordEditForm(@PathVariable String userId, Model model) {
         model.addAttribute("user", userService.findByUserId(userId));
 
         return "user/form_update";

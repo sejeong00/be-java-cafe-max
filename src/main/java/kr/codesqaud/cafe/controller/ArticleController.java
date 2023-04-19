@@ -23,7 +23,7 @@ public class ArticleController {
     @RequestMapping("/article/write")
     public String create(
             HttpServletRequest request,
-            @ModelAttribute("question") ArticlePostRequest articlePostRequest
+            @ModelAttribute ArticlePostRequest articlePostRequest
     ) {
         if ("POST".equals(request.getMethod())) {
             articleService.post(articlePostRequest);
